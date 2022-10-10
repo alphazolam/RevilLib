@@ -20,14 +20,15 @@
 template <> void REMotion43::Fixup() {
   char *masterBuffer = reinterpret_cast<char *>(this);
 
-  if (!es::FixupPointers(masterBuffer, ptrStore, bones, tracks, unkOffset02,
-                         animationName)) {
-    return;
-  }
+  bones.Fixup(masterBuffer);
 
   if (bones) {
     bones->ptr.Fixup(masterBuffer);
   }
+
+  tracks.Fixup(masterBuffer);
+  unkOffset02.Fixup(masterBuffer);
+  animationName.Fixup(masterBuffer);
 
   for (size_t b = 0; b < numBones; b++) {
     bones->ptr[b].Fixup(masterBuffer);
@@ -39,9 +40,7 @@ template <> void REMotion43::Fixup() {
 }
 
 void REMotionTrack43::Fixup(char *masterBuffer) {
-  if (!es::FixupPointers(masterBuffer, ptrStore, curves)) {
-    return;
-  }
+  curves.Fixup(masterBuffer);
 
   uint32 numUsedCurves = 0;
 
@@ -53,13 +52,16 @@ void REMotionTrack43::Fixup(char *masterBuffer) {
 }
 
 void REMotionBone::Fixup(char *masterBuffer) {
-  es::FixupPointers(masterBuffer, ptrStore, boneName, parentBoneNamePtr,
-                    firstChildBoneNamePtr, lastChildBoneNamePtr);
+  boneName.Fixup(masterBuffer);
+  parentBoneNamePtr.Fixup(masterBuffer);
+  firstChildBoneNamePtr.Fixup(masterBuffer);
+  lastChildBoneNamePtr.Fixup(masterBuffer);
 }
 
 void RETrackCurve43::Fixup(char *masterBuffer) {
-  es::FixupPointers(masterBuffer, ptrStore, frames, controlPoints,
-                    minMaxBounds);
+  frames.Fixup(masterBuffer);
+  controlPoints.Fixup(masterBuffer);
+  minMaxBounds.Fixup(masterBuffer);
 }
 
 // https://en.wikipedia.org/wiki/Slerp

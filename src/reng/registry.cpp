@@ -15,7 +15,10 @@
     along with this program.If not, see <https://www.gnu.org/licenses/>.
 */
 
+//This file updated by alphaZomega in 2022 for support of mot.495, mot.492, mot.456, motlist.528, motlist.524, and motlist.484
+
 #include "datas/except.hpp"
+#include "motion_list_484.hpp"
 #include "motion_list_486.hpp"
 #include "motion_list_99.hpp"
 #include <set>
@@ -39,9 +42,13 @@ static const std::set<uint64> supAssets = {
 static const std::unordered_map<uint64, decltype(&f_<void>::creator)>
     assetRegistry = {
         make<REMotlist60Asset>(), make<REMotlist85Asset>(),
-        make<REMotlist99Asset>(), make<REMotlist486Asset>(),
+        make<REMotlist99Asset>(), make<REMotlist486Asset>(), 
+		make<REMotlist484Asset>(), make<REMotlist524Asset>(),
+		make<REMotlist528Asset>(), make<REMotlist653Asset>(),
         make<REMotion43Asset>(),  make<REMotion78Asset>(),
-        make<REMotion65Asset>(),  make<REMotion458Asset>(),
+        make<REMotion65Asset>(),  make<REMotion458Asset>(), 
+		make<REMotion456Asset>(), make<REMotion492Asset>(),
+		make<REMotion495Asset>(), make<REMotion603Asset>(),
 };
 
 REAssetImpl::Ptr REAssetImpl::Create(REAssetBase base) {
@@ -58,3 +65,5 @@ REAssetImpl::Ptr REAssetImpl::Create(REAssetBase base) {
     }
   }
 }
+
+thread_local std::vector<void *> es::usedPts;
